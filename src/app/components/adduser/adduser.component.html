@@ -1,0 +1,105 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Add User
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">User Management</li>
+        <li class="active">Add User</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="row">
+        <div class="col-md-5 col-sm-12">
+
+          <!-- Profile Image -->
+          <div class="row">
+            <div class="col-sm-12 mb-2">
+              <flash type="addUser"></flash>
+            </div>
+          </div>
+          <div class="box box-primary shadow">
+            <div class="box-body">
+                <form [formGroup]="addUserForm" (ngSubmit)="addUser();">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input id="fullName" type="text" formControlName="fullName" class="form-control form-control-user"
+                            placeholder="Full Name" [ngClass]="{ 'is-invalid': (!!fval.fullName.touched || !!fval.fullName.dirty || submitted) && fval.fullName.errors }" />
+                        <div *ngIf="(!!fval.fullName.touched || !!fval.fullName.dirty || submitted) && !!fval.fullName.errors" class="invalid-feedback">
+                            <div *ngIf="!!fval.fullName.errors.required">
+                            Please provide a valid Full Name
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input id="email" type="text" formControlName="email" class="form-control form-control-user"
+                            placeholder="Email Address" [ngClass]="{ 'is-invalid': (!!fval.email.touched || !!fval.email.dirty || submitted) && fval.email.errors }" />
+                        <div *ngIf="(!!fval.email.touched || !!fval.email.dirty || submitted) && !!fval.email.errors" class="invalid-feedback">
+                            <div *ngIf="!!fval.email.errors.required">
+                            Please provide a valid Email
+                            </div>
+                            <div *ngIf="!!fval.email.errors.email">
+                            Email must be a valid email address
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input id="phone" type="tel" formControlName="phone" class="form-control form-control-user"
+                            placeholder="Phone Number" [ngClass]="{ 'is-invalid': (!!fval.phone.touched || !!fval.phone.dirty || submitted) && fval.phone.errors }" />
+                        <div *ngIf="(!!fval.phone.touched || !!fval.phone.dirty || submitted) && !!fval.phone.errors" class="invalid-feedback">
+                            <div *ngIf="!!fval.phone.errors.required">
+                            Please provide a valid Phone Number
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" formControlName="password" class="form-control form-control-user"
+                            placeholder="password" [ngClass]="{ 'is-invalid': (!!fval.password.touched || !!fval.password.dirty || submitted) && fval.password.errors }" />
+                        <div *ngIf="(!!fval.password.touched || !!fval.password.dirty || submitted) && !!fval.password.errors" class="invalid-feedback">
+                            <div *ngIf="!!fval.password.errors.required">
+                            Please provide a valid password
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label for="password">Status</label><br>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div> -->
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" formControlName="status" class="form-control form-control-user"
+                            [ngClass]="{ 'is-invalid': (!!fval.status.touched || !!fval.status.dirty || submitted) && fval.status.errors }">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                        <div *ngIf="(!!fval.status.touched || !!fval.status.dirty || submitted) && !!fval.status.errors" class="invalid-feedback">
+                            <div *ngIf="!!fval.status.errors.required">
+                            Please provide a valid status
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                          <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
+                        </div>
+                      </div>
+                </form>
+              </div>
+          </div>
+        </div>
+      </div>
+    </section>
+</div>

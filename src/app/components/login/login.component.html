@@ -1,0 +1,42 @@
+<div class="login-box">
+  <div class="login-logo">
+    <a href="../../index2.html"><b>Admin</b>LTE</a>
+  </div>
+  <div class="login-box-body">
+    <div class="row">
+      <div class="col-sm-12">
+        <flash type="login"></flash>
+      </div>
+    </div>
+    <p class="login-box-msg">Sign in to start your session</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login();">
+      <div class="form-group">
+        <input type="text" formControlName="email" class="form-control form-control-user"
+            placeholder="Email Address" [ngClass]="{ 'is-invalid': (!!fval.email.touched || !!fval.email.dirty || submitted) && fval.email.errors }" />
+        <div *ngIf="(!!fval.email.touched || !!fval.email.dirty || submitted) && !!fval.email.errors" class="invalid-feedback">
+            <div *ngIf="!!fval.email.errors.required">
+              Please provide a valid Email
+            </div>
+            <div *ngIf="!!fval.email.errors.email">
+              Email must be a valid email address
+            </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <input type="password" formControlName="password" class="form-control form-control-user"
+            placeholder="Password" [ngClass]="{ 'is-invalid': (!!fval.password.touched || !!fval.password.dirty || submitted) && fval.password.errors }" />
+        <div *ngIf="(!!fval.password.touched || !!fval.password.dirty || submitted) && !!fval.password.errors" class="invalid-feedback">
+            <div *ngIf="!!fval.password.errors.required">
+              Please provide a valid Password
+            </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

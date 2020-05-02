@@ -1,0 +1,184 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Manage Courses
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Courses Management</li>
+        <li class="active">Manage Courses</li>
+      </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+            <div class="box-header">
+                <h3 class="box-title pull-left">All Courses</h3>
+                <a href="#" onclick="return false;" data-toggle="modal" data-target="#addCourses" class="pull-right btn btn-primary">Add New Course</a>
+            </div>
+            <div class="box-body" *ngIf="this.tableShow">
+                <table id="example" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Course Name</th>
+                        <th>Category Name</th>
+                        <th>Status</th>
+                        <th>Created By</th>
+                        <th>Created Date</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of coursesData;index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{item.course_name}}</td>
+                            <td>{{item.category_name}}</td>
+                            <td class="status" [ngClass]="(item.status=='active')?'active':'inactive'"><span>{{item.status}}</span></td>
+                            <td>{{item.created_by}}</td>
+                            <td>{{item.created_date | date:'y MMM d, h:mm:ss a'}}</td>
+                            <td class="action-tab">
+                                <a href="#" onclick="return false;" (click)="editCoursesClick(item)" class="btn-success"><i class="fa fa-pencil"></i></a>
+                                <a href="#" onclick="return false;" (click)="deleteCourses(item.id)" class="btn-danger"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal fade" id="addCourses">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Create Course</h4>
+        </div>
+
+        <form [formGroup]="addCoursesForm" (ngSubmit)="addCourses();">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 mb-2">
+                      <flash type="addCourses"></flash>
+                    </div>
+                  </div>
+                <div class="form-group">
+                  <label for="categoryId">Select Category</label>
+                  <select class="form-control form-control-user" id="categoryId" formControlName="categoryId"
+                   [ngClass]="{ 'is-invalid': (!!fval.categoryId.touched || !!fval.categoryId.dirty || submitted) && fval.categoryId.errors }">
+                    <option *ngFor=" let item of categoryData;" value="{{item.id}}">{{item.category_name}}</option>
+                  </select>
+                  <div *ngIf="(!!fval.categoryId.touched || !!fval.categoryId.dirty || submitted) && !!fval.categoryId.errors" class="invalid-feedback">
+                      <div *ngIf="!!fval.categoryId.errors.required">
+                      Please provide a valid Category Name
+                      </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="coursesName">Course Name</label>
+                    <input id="coursesName" type="text" formControlName="coursesName" class="form-control form-control-user"
+                        placeholder="Category Name" [ngClass]="{ 'is-invalid': (!!fval.coursesName.touched || !!fval.coursesName.dirty || submitted) && fval.coursesName.errors }" />
+                    <div *ngIf="(!!fval.coursesName.touched || !!fval.coursesName.dirty || submitted) && !!fval.coursesName.errors" class="invalid-feedback">
+                        <div *ngIf="!!fval.coursesName.errors.required">
+                        Please provide a valid Course Name
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" formControlName="status" class="form-control form-control-user"
+                        [ngClass]="{ 'is-invalid': (!!fval.status.touched || !!fval.status.dirty || submitted) && fval.status.errors }">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                    <div *ngIf="(!!fval.status.touched || !!fval.status.dirty || submitted) && !!fval.status.errors" class="invalid-feedback">
+                        <div *ngIf="!!fval.status.errors.required">
+                        Please provide a valid status
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+  <!-- /.modal -->
+
+<div class="modal fade" id="editCourses">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Edit Course</h4>
+        </div>
+
+        <form [formGroup]="editCoursesForm" (ngSubmit)="editCourses();">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 mb-2">
+                      <flash type="editCourses"></flash>
+                    </div>
+                  </div>
+                <div class="form-group">
+                  <label for="categoryId">Select Category</label>
+                  <select class="form-control form-control-user" id="categoryId" formControlName="categoryId"
+                    [ngClass]="{ 'is-invalid': (!!fval.categoryId.touched || !!fval.categoryId.dirty || submitted) && fval.categoryId.errors }">
+                    <option *ngFor=" let item of categoryData;" value="{{item.id}}">{{item.category_name}}</option>
+                  </select>
+                  <div *ngIf="(!!fval.categoryId.touched || !!fval.categoryId.dirty || submitted) && !!fval.categoryId.errors" class="invalid-feedback">
+                      <div *ngIf="!!fval.categoryId.errors.required">
+                      Please provide a valid Category Name
+                      </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="coursesName">Courses Name</label>
+                    <input type="text" formControlName="coursesName" class="form-control form-control-user"
+                        placeholder="Courses Name" [ngClass]="{ 'is-invalid': (!!fvalEdit.coursesName.touched || !!fvalEdit.coursesName.dirty || submitted) && fvalEdit.coursesName.errors }" />
+                    <div *ngIf="(!!fvalEdit.coursesName.touched || !!fvalEdit.coursesName.dirty || submitted) && !!fvalEdit.coursesName.errors" class="invalid-feedback">
+                        <div *ngIf="!!fvalEdit.coursesName.errors.required">
+                        Please provide a valid Courses Name
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select formControlName="status" class="form-control form-control-user"
+                        [ngClass]="{ 'is-invalid': (!!fvalEdit.status.touched || !!fvalEdit.status.dirty || submitted) && fvalEdit.status.errors }">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                    <div *ngIf="(!!fvalEdit.status.touched || !!fvalEdit.status.dirty || submitted) && !!fvalEdit.status.errors" class="invalid-feedback">
+                        <div *ngIf="!!fvalEdit.status.errors.required">
+                        Please provide a valid status
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+  <!-- /.modal -->

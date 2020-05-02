@@ -1,1 +1,116 @@
 /* You can add global styles to this file, and also import other style files */
+
+.invalid-feedback {
+  color: #dc3545;
+}
+.is-invalid{
+  border: 1px solid #dc3545;
+}
+.action-tab a{
+  padding:2px 5px;
+  margin:0px 2px;
+  border-radius: 4px;
+}
+td.status.active span{
+  background-color: #35a65a;
+  color: #fff;
+  padding: 2px 4px;
+  border-radius: 4px;
+  text-transform: capitalize;
+}
+td.status.inactive span{
+  background-color: chocolate;
+  color: #fff;
+  padding: 2px 4px;
+  border-radius: 4px;
+  text-transform: capitalize;
+}
+.swal2-popup{
+  font-size: 1.1em !important;
+  margin-top: 10% !important
+}
+
+
+/* Switch Styles */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 35px;
+  height: 20px;
+}
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 1px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+input:checked + .slider {
+  background-color: #35a65a;
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px #35a65a;
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+}
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+
+/* Loader Styles */
+.loader{
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background: rgba(43, 38, 38, 0.63);
+  z-index: 9999;
+}
+.loader img{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  width: 70px;
+}
+
+
+
+/* Onboarding Styles */
+.onboarding-wrapper{
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: #d2d6de;
+    overflow: hidden;
+}
+

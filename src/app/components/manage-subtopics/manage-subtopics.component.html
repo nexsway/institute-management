@@ -1,0 +1,184 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Manage Subtopics
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Subtopic Management</li>
+        <li class="active">Manage Subtopic</li>
+      </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+            <div class="box-header">
+                <h3 class="box-title pull-left">All Subtopics</h3>
+                <a href="#" onclick="return false;" data-toggle="modal" data-target="#addSubtopic" class="pull-right btn btn-primary">Add New Subtopic</a>
+            </div>
+            <div class="box-body" *ngIf="this.tableShow">
+                <table id="example" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Subtopic Name</th>
+                        <th>Topic Name</th>
+                        <th>Status</th>
+                        <th>Created By</th>
+                        <th>Created Date</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of subtopicsData;index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{item.subtopic_name}}</td>
+                            <td>{{item.topic_name}}</td>
+                            <td class="status" [ngClass]="(item.status=='active')?'active':'inactive'"><span>{{item.status}}</span></td>
+                            <td>{{item.created_by}}</td>
+                            <td>{{item.created_date | date:'y MMM d, h:mm:ss a'}}</td>
+                            <td class="action-tab">
+                                <a href="#" onclick="return false;" (click)="editSubtopicClick(item)" class="btn-success"><i class="fa fa-pencil"></i></a>
+                                <a href="#" onclick="return false;" (click)="deleteSubtopic(item.id)" class="btn-danger"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</div>
+
+<div class="modal fade" id="addSubtopic">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Create Subtopic</h4>
+        </div>
+
+        <form [formGroup]="addSubtopicForm" (ngSubmit)="addSubtopic();">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 mb-2">
+                      <flash type="addSubtopic"></flash>
+                    </div>
+                  </div>
+                <div class="form-group">
+                  <label for="topicId">Select Topic</label>
+                  <select class="form-control form-control-user" id="topicId" formControlName="topicId"
+                   [ngClass]="{ 'is-invalid': (!!fval.topicId.touched || !!fval.topicId.dirty || submitted) && fval.topicId.errors }">
+                    <option *ngFor=" let item of topicData;" value="{{item.id}}">{{item.topic_name}}</option>
+                  </select>
+                  <div *ngIf="(!!fval.topicId.touched || !!fval.topicId.dirty || submitted) && !!fval.topicId.errors" class="invalid-feedback">
+                      <div *ngIf="!!fval.topicId.errors.required">
+                      Please provide a valid Topic Name
+                      </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="subtopicName">Subtopic Name</label>
+                    <input id="subtopicName" type="text" formControlName="subtopicName" class="form-control form-control-user"
+                        placeholder="Category Name" [ngClass]="{ 'is-invalid': (!!fval.subtopicName.touched || !!fval.subtopicName.dirty || submitted) && fval.subtopicName.errors }" />
+                    <div *ngIf="(!!fval.subtopicName.touched || !!fval.subtopicName.dirty || submitted) && !!fval.subtopicName.errors" class="invalid-feedback">
+                        <div *ngIf="!!fval.subtopicName.errors.required">
+                        Please provide a valid Subtopic Name
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" formControlName="status" class="form-control form-control-user"
+                        [ngClass]="{ 'is-invalid': (!!fval.status.touched || !!fval.status.dirty || submitted) && fval.status.errors }">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                    <div *ngIf="(!!fval.status.touched || !!fval.status.dirty || submitted) && !!fval.status.errors" class="invalid-feedback">
+                        <div *ngIf="!!fval.status.errors.required">
+                        Please provide a valid status
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+    <!-- /.modal -->
+
+<div class="modal fade" id="editSubtopic">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Edit Chapter</h4>
+        </div>
+
+        <form [formGroup]="editSubtopicForm" (ngSubmit)="editSubtopic();">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 mb-2">
+                      <flash type="editSubtopic"></flash>
+                    </div>
+                  </div>
+                <div class="form-group">
+                  <label for="topicId">Select Topic</label>
+                  <select class="form-control form-control-user" id="topicId" formControlName="topicId"
+                    [ngClass]="{ 'is-invalid': (!!fval.topicId.touched || !!fval.topicId.dirty || submitted) && fval.topicId.errors }">
+                    <option *ngFor=" let item of topicData;" value="{{item.id}}">{{item.topic_name}}</option>
+                  </select>
+                  <div *ngIf="(!!fval.topicId.touched || !!fval.topicId.dirty || submitted) && !!fval.topicId.errors" class="invalid-feedback">
+                      <div *ngIf="!!fval.topicId.errors.required">
+                      Please provide a valid Topic Name
+                      </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="subtopicName">Subtopic Name</label>
+                    <input type="text" formControlName="subtopicName" class="form-control form-control-user"
+                        placeholder="Topic Name" [ngClass]="{ 'is-invalid': (!!fvalEdit.subtopicName.touched || !!fvalEdit.subtopicName.dirty || submitted) && fvalEdit.subtopicName.errors }" />
+                    <div *ngIf="(!!fvalEdit.subtopicName.touched || !!fvalEdit.subtopicName.dirty || submitted) && !!fvalEdit.subtopicName.errors" class="invalid-feedback">
+                        <div *ngIf="!!fvalEdit.subtopicName.errors.required">
+                        Please provide a valid Subtopic Name
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select formControlName="status" class="form-control form-control-user"
+                        [ngClass]="{ 'is-invalid': (!!fvalEdit.status.touched || !!fvalEdit.status.dirty || submitted) && fvalEdit.status.errors }">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                    <div *ngIf="(!!fvalEdit.status.touched || !!fvalEdit.status.dirty || submitted) && !!fvalEdit.status.errors" class="invalid-feedback">
+                        <div *ngIf="!!fvalEdit.status.errors.required">
+                        Please provide a valid status
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+  <!-- /.modal -->

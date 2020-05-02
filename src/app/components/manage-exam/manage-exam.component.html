@@ -1,0 +1,58 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Manage Exams
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Exam Management</li>
+        <li class="active">Manage Exams</li>
+      </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+            <div class="box-header">
+                <h3 class="box-title pull-left">All Exams</h3>
+                <a [routerLink]="['../add-exam']" class="pull-right btn btn-primary">Add New Exam</a>
+            </div>
+            <div class="box-body" *ngIf="this.tableShow">
+                <table id="example" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Exam Name</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Count Down</th>
+                        <th>Status</th>
+                        <th>Created By</th>
+                        <th>Created Date</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of examData;index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.start_date | date:'y MMM d, h:mm:ss a' }}</td>
+                            <td>{{item.end_Date | date:'y MMM d, h:mm:ss a'}}</td>
+                            <td></td>
+                            <td class="status" [ngClass]="(item.status=='active')?'active':'inactive'"><span>{{item.status}}</span></td>
+                            <td>{{item.created_by}}</td>
+                            <td>{{item.created_date | date:'y MMM d, h:mm:ss a'}}</td>
+                            <td class="action-tab">
+                                <a [routerLink]="['../edit-exam', item.id]" class="btn-success"><i class="fa fa-pencil"></i></a>
+                                <a href="#" onclick="return false;" (click)="deleteExam(item.id)" class="btn-danger"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</div>
